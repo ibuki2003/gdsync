@@ -78,10 +78,10 @@ def register_files(files: List[str]):
         for fn in files:
             h = filehash.get_file_hash(d / fn)
 
-            if c.execute('select 1 from files where name=?', (fn,)).rowcount:
+            if c.execute('select 1 from files where name=?', (fn,)).rowcount > 0:
                 c.execute('update files set hash=? where name=?', (h, fn))
             else:
-                c.execute('insert into files set (hash) values (?) where name=?', (h, fn))
+                c.execute('insert into files (name, hash) values (?, ?)', (fn, h))
 
 if __name__ == "__main__":
     #print(get_new_files())
