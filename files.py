@@ -38,9 +38,10 @@ def get_new_files() -> List[Tuple[str, str]]:
         a = 0
         b = 0
         while a < len(rows) or b < len(filenames):
-            if b < len(filenames) and filenames[b] in ignore_file_patterns:
-                b += 1
-                continue
+            if b < len(filenames):
+                if filenames[b] in ignore_file_patterns or (d/filenames[b]).is_dir():
+                    b += 1
+                    continue
 
             s = 0 # 1: a advanced 0: normal -1: b advanced
             if a >= len(rows):
